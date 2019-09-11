@@ -8,31 +8,49 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.RobotMap;
-import frc.robot.commands.VelDrive;
 
 /**
  * Add your docs here.
  */
-public class DtMain extends Subsystem {
+public class FeildPos extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
+  AHRS gyro;
+  public FeildPos(AHRS gyro){
+    this.gyro = gyro;
+  }
+  public Double getHeading(){
+    return gyro.getAngle();
+  }
+  public void setLeftMotor(double output) {
+    if (Math.signum(output) > 0) {
+      output += RobotMap.k.dtLeftFwdVint;
+    } else {
+      output += RobotMap.k.dtLeftRevVint;
+    }
+    RobotMap.Ldrive1.set(ControlMode.PercentOutput, output);
+  }
+  public void setRightMotor(double output) {
+    if (Math.signum(output) > 0) {
+      output += RobotMap.k.dtRightFwdVint;
+    } else {
+      output += RobotMap.k.dtRightRevVint;
+    }
+    RobotMap.Ldrive1.set(ControlMode.PercentOutput, output);
+  }
+  public Double getLeftDistance(){
+    return RobotMap.leftEncoder.getDistance();
+  }
+  public Double getRightDistance(){
+    return RobotMap.rightEncoder.getDistance();
+  }
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
     // setDefaultCommand(new MySpecialCommand());
-    setDefaultCommand(new VelDrive());
   }
-  public void Drive(Double fPow, Double turnPow){
-    RobotMap.Ldrive1.set(ControlMode.Velocity,fPow+turnPow);
-    RobotMap.Rdrive1.set(ControlMode.Velocity, fPow-turnPow);
-  }
-  public void end(){
-    RobotMap.Ldrive1.set(ControlMode.Velocity,0);
-    RobotMap.Rdrive1.set(ControlMode.Velocity,0);
-  }
- 
 }
