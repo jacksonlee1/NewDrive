@@ -17,6 +17,8 @@ public class Constants {
     public Double dtRKp;
     public Double dtLKd;
     public Double dtRKd;
+    public double dtLeftFwdVint;
+    public double dtLeftRevVint;
     public Double maxVel;
     public Double maxTurn;
 
@@ -24,7 +26,9 @@ public class Constants {
         dtLKp = .1;
         dtRKp = .1;
         dtLKd = .1;
-        dtRKd=.1;
+        dtRKd = .1;
+        dtLeftFwdVint = 1.1;
+        dtLeftRevVint = -1.1;
         maxVel = 14.0;
         maxTurn = 7.0;
     }

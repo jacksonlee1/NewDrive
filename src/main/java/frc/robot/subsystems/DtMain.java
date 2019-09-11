@@ -7,7 +7,10 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
 import frc.robot.commands.VelDrive;
 
 /**
@@ -27,4 +30,12 @@ public class DtMain extends Subsystem {
 
   }
 
+  public void setLeftMotor(double output) {
+    if (Math.signum(output) > 0) {
+      output += RobotMap.k.dtLeftFwdVint;
+    } else {
+      output += RobotMap.k.dtLeftRevVint;
+    }
+    RobotMap.Ldrive1.set(ControlMode.PercentOutput, output);
+  }
 }
