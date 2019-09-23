@@ -27,12 +27,12 @@ public class DtMain extends Subsystem {
     setDefaultCommand(new VelDrive());
   }
   public void Drive(Double fPow, Double turnPow){
-    RobotMap.Ldrive1.set(ControlMode.Velocity,fPow+turnPow);
-    RobotMap.Rdrive1.set(ControlMode.Velocity, fPow-turnPow);
+    RobotMap.Ldrive1.set(ControlMode.PercentOutput,fPow+turnPow);
+    RobotMap.Rdrive1.set(ControlMode.PercentOutput, fPow-turnPow);
   }
   public void end(){
-    RobotMap.Ldrive1.set(ControlMode.Velocity,0);
-    RobotMap.Rdrive1.set(ControlMode.Velocity,0);
+    RobotMap.Ldrive1.set(ControlMode.PercentOutput,0);
+    RobotMap.Rdrive1.set(ControlMode.PercentOutput,0);
   }
  
 }

@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Dynasty.Constants;
 import frc.robot.subsystems.DtMain;
@@ -40,13 +41,12 @@ public class RobotMap {
   public static TalonSRX Rdrive2;
   public static DtMain drivetrain;
   public static Constants k;
-  public static AHRS gyro;
-  public static FeildPos pos;
-
+  public static AHRS gyro = new AHRS(Port.kUSB1);
+  public static FeildPos pos = new FeildPos(gyro);
 
   public static Encoder rightEncoder;
   public static Encoder leftEncoder;
-  
+
   public static RobotSpecs robotSpecs;
   public static TrajectoryParams params;
   public static TankDriveTrajectory trajectory;
@@ -63,26 +63,26 @@ public static final TimestampSource TIMESTAMP_SOURCE = Timer::getFPGATimestamp;
   // public static int leftMotor = 1;
   // public static int rightMotor = 2;
 public static void init() {
-  Ldrive1 = new TalonSRX(1);
-  Ldrive2 = new TalonSRX(2);
+  Ldrive1 = new TalonSRX(2);
+  Ldrive2 = new TalonSRX(5);
   Rdrive1 = new TalonSRX(3);
-  Rdrive2 = new TalonSRX(4);
+  Rdrive2 = new TalonSRX(6);
 
-  Ldrive2.set(ControlMode.Follower, 1);
-  Rdrive2.set(ControlMode.Follower,3);
+  Ldrive2.follow(Ldrive1);
+  Rdrive2.follow(Rdrive1);
   drivetrain = new DtMain();
   k = new Constants();
 
   rightEncoder = new Encoder(0, 1, false, EncodingType.k1X);
   leftEncoder = new Encoder(2, 3, false, EncodingType.k1X);
-  
-  robotSpecs = new RobotSpecs(12, 6, 2);
+
+  robotSpecs = new RobotSpecs(k.maxVel, k.maxAccel, k.baseWidth);
   params = new TrajectoryParams();
   params.waypoints = new Waypoint[] {
     new Waypoint(0.0, 0.0, 0),
-    new Waypoint(10, 0, 0),
+    new Waypoint(0, 5, 0),
   };
-  params.alpha = 20.0;
+  params.alpha = 10.0;
   params.isTank = true;
   trajectory = new TankDriveTrajectory(new BasicTrajectory(robotSpecs, params));
 }

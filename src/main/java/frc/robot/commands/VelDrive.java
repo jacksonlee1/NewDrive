@@ -14,17 +14,18 @@ import frc.robot.RobotMap;
 import frc.robot.subsystems.DtMain;
 
 public class VelDrive extends Command {
+  public Double forward;
+  public Double turn;
+  Double fPow;
+  Double turnPow;
+  double maxVel = RobotMap.k.maxVel;
+  Double maxTurn = RobotMap.k.maxTurn;
+
   public VelDrive() {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
-    requires(new DtMain());
+    requires(RobotMap.drivetrain);
   }
-public Double forward = Robot.oi.d1.getRawAxis(1);
-public Double turn = Robot.oi.d1.getRawAxis(4);
-Double fPow;
-Double turnPow;
-double maxVel = RobotMap.k.maxVel;
-Double maxTurn = RobotMap.k.maxTurn;
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
@@ -33,13 +34,17 @@ Double maxTurn = RobotMap.k.maxTurn;
   // Called repeatedly when this Command is scheduled to run
   @Override
   protected void execute() {
-    fPow = forward*maxVel;
-    turnPow = turn*maxTurn;
-    RobotMap.drivetrain.Drive(fPow,turnPow);
+    forward = -Robot.oi.d1.getRawAxis(1);
+    turn = Robot.oi.d1.getRawAxis(4);
+
+    fPow = forward*maxVel / 12;
+    turnPow = turn*maxTurn / 12;
+    RobotMap.drivetrain.Drive(turnPow, fPow);
   }
 
   // Make this return true when this Command no longer needs to run execute()
   @Override
+  
   protected boolean isFinished() {
     return false;
   }

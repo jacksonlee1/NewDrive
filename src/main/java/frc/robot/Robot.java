@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.commands.FollowTrajectory;
 
 
 /**
@@ -36,7 +37,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     RobotMap.init();
     oi = new OI();
-    // chooser.addOption("My Auto", new MyAutoCommand());
+    m_chooser.addOption("Arctos Auto", new FollowTrajectory(RobotMap.trajectory));
     SmartDashboard.putData("Auto mode", m_chooser);
   }
 
