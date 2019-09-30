@@ -25,7 +25,7 @@ import frc.robot.commands.FollowTrajectory;
 public class Robot extends TimedRobot {
   
   public static OI oi;
-
+  boolean gyroReset = false;
   Command m_autonomousCommand;
   SendableChooser<Command> m_chooser = new SendableChooser<>();
 
@@ -51,6 +51,18 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+    if (!gyroReset) {
+      if (!RobotMap.gyro.isCalibrating()) {
+        gyroReset = true;
+        RobotMap.gyro.reset(); 
+      }
+    }
+    SmartDashboard.putNumber("Left Encoder Value", RobotMap.leftEncoder.get());
+    SmartDashboard.putNumber("Right Encoder Value", RobotMap.rightEncoder.get());
+    SmartDashboard.putNumber("Gyro Angle", RobotMap.gyro.getAngle());
+    SmartDashboard.putNumber("Gyro Rotation", RobotMap.gyro.getRate());
+    SmartDashboard.putBoolean("Gyro IsCal", RobotMap.gyro.isCalibrating());
+    SmartDashboard.putBoolean("Gyro IsConn", RobotMap.gyro.isConnected());
   }
 
   /**

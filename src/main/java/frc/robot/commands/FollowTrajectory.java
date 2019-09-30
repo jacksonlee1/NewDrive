@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Logger;
@@ -18,6 +19,8 @@ public class FollowTrajectory extends Command {
   private final TankDriveTrajectory trajectory;
   private TankFollower follower;
   Logger log;
+  private int lastLEncoderVal = 0;
+  private int lastREncoderVal = 0;
   public FollowTrajectory(TankDriveTrajectory trajectory) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -31,7 +34,11 @@ public class FollowTrajectory extends Command {
   // this one have an easier time.
   @Override
   public void initialize() {
+    RobotMap.leftEncoder.reset();
+    RobotMap.rightEncoder.reset();
+    RobotMap.gyro.reset();
     log.clear();
+    
     follower = new TankFollower(trajectory, RobotMap.L_MOTOR, RobotMap.R_MOTOR, 
     RobotMap.L_DISTANCE_SOURCE, RobotMap.R_DISTANCE_SOURCE, RobotMap.TIMESTAMP_SOURCE,
     RobotMap.GYRO, RobotMap.k.dtLkV, RobotMap.k.dtLkA, RobotMap.k.dtLKp, RobotMap.k.dtLKd, RobotMap.k.dtGkP);
@@ -41,6 +48,7 @@ public class FollowTrajectory extends Command {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
+
     follower.run();
     log.entry("Out Left", follower.lastLeftOutput());
     log.entry("Out Right", follower.lastRightOutput());
@@ -67,6 +75,11 @@ public class FollowTrajectory extends Command {
       SmartDashboard.putNumber("Follower Right Error Derivative", follower.lastRightDerivative());
 
       SmartDashboard.putNumber("Follower Directional Error", follower.lastDirectionalError());
+
+      SmartDashboard.putNumber("Left Encoder Value", RobotMap.leftEncoder.get());
+      SmartDashboard.putNumber("Right Encoder Value", RobotMap.rightEncoder.get());
+      // SmartDashboard.putBoolean("Left Encoder Good", lEncoderGood());
+      // SmartDashboard.putBoolean("Right Encoder Good", rEncoderGood());
   }
 
   // Make this return true when this Command no longer needs to run execute()
@@ -74,7 +87,25 @@ public class FollowTrajectory extends Command {
   public boolean isFinished() {
     return !follower.isRunning();
   }
+  // public boolean lEncoderGood(){
+  //   lastLEncoderVal = RobotMap.leftEncoder.get();
+  //   while(follower.isRunning()){
+  //   if((lastLEncoderVal == RobotMap.leftEncoder.get()))
+  //     return false;
+  //   }
+  //   lastLEncoderVal = RobotMap.leftEncoder.get();
+  //   return true;
+  // }
 
+  // public boolean rEncoderGood(){
+  //   lastREncoderVal = RobotMap.rightEncoder.get();
+  //   while(follower.isRunning()){
+  //   if((lastREncoderVal == RobotMap.rightEncoder.get()))
+  //     return false;
+  //   }
+  //   lastREncoderVal = RobotMap.rightEncoder.get();
+  //   return true;
+  // }
   // Called once after isFinished returns true
   @Override
   public void end() {

@@ -8,7 +8,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.subsystems.DtMain;
@@ -29,6 +29,7 @@ public class VelDrive extends Command {
   // Called just before this Command runs the first time
   @Override
   protected void initialize() {
+    RobotMap.gyro.reset();
   }
 
   // Called repeatedly when this Command is scheduled to run
@@ -39,7 +40,7 @@ public class VelDrive extends Command {
 
     fPow = forward*maxVel / 12;
     turnPow = turn*maxTurn / 12;
-    RobotMap.drivetrain.Drive(turnPow, fPow);
+    RobotMap.drivetrain.Drive(fPow,turnPow);
   }
 
   // Make this return true when this Command no longer needs to run execute()

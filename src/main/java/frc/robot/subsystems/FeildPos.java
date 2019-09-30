@@ -40,10 +40,10 @@ public class FeildPos extends Subsystem {
     } else {
       output += RobotMap.k.dtRightRevVint;
     }
-    RobotMap.Ldrive1.set(ControlMode.PercentOutput, output);
+    RobotMap.Rdrive1.set(ControlMode.PercentOutput, output);
   }
   public Double getLeftDistance(){
-    return RobotMap.leftEncoder.getDistance();
+    return  RobotMap.leftEncoder.getDistance();
   }
   public Double getRightDistance(){
     return RobotMap.rightEncoder.getDistance();

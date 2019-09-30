@@ -68,19 +68,22 @@ public static void init() {
   Rdrive1 = new TalonSRX(3);
   Rdrive2 = new TalonSRX(6);
 
+  Rdrive1.setInverted(true);
+  Rdrive2.setInverted(true);
   Ldrive2.follow(Ldrive1);
   Rdrive2.follow(Rdrive1);
   drivetrain = new DtMain();
   k = new Constants();
+  gyro.setAngleAdjustment(90);
 
   rightEncoder = new Encoder(0, 1, false, EncodingType.k1X);
   leftEncoder = new Encoder(2, 3, false, EncodingType.k1X);
-
+  rightEncoder.setReverseDirection(true);
   robotSpecs = new RobotSpecs(k.maxVel, k.maxAccel, k.baseWidth);
   params = new TrajectoryParams();
   params.waypoints = new Waypoint[] {
-    new Waypoint(0.0, 0.0, 0),
-    new Waypoint(0, 5, 0),
+    new Waypoint(0.0, 0.0, Math.PI/2),
+    new Waypoint(0, 5, Math.PI/2)
   };
   params.alpha = 10.0;
   params.isTank = true;

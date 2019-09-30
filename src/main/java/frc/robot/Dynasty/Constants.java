@@ -32,21 +32,21 @@ public class Constants {
     public Double baseWidth;
 
     public Constants(){
-        dtLKp = .1;
-        dtRKp = .1;
-        dtLKd = .1;
-        dtRKd = .1;
-        dtLeftFwdVint = 1.1;
-        dtLeftRevVint = -1.1; 
-        dtRightFwdVint = 1.1;
-        dtRightRevVint = -1.1;
+        dtLKp = .00000;
+        dtRKp = .00000;
+        dtLKd = .0;
+        dtRKd = .0;
+        dtLeftFwdVint = 0;
+        dtLeftRevVint = 0; 
+        dtRightFwdVint = 0;
+        dtRightRevVint = 0;
         maxVel = 12.0;
         maxTurn = 7.0;
         maxAccel = 2.0;
         baseWidth = 2.02;
-        dtGkP = .01;
-        dtLkV = .04;
-        dtLkA = .004;
+        dtGkP = .0000;
+        dtLkV = .483;
+        dtLkA = .00;
     }
 
 }
