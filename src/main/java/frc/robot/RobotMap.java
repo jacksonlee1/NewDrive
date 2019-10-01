@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
+//import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -76,9 +76,9 @@ public static void init() {
   k = new Constants();
   gyro.setAngleAdjustment(90);
 
-  rightEncoder = new Encoder(0, 1, false, EncodingType.k1X);
+  rightEncoder = new Encoder(0, 1, true, EncodingType.k1X);
   leftEncoder = new Encoder(2, 3, false, EncodingType.k1X);
-  rightEncoder.setReverseDirection(true);
+  
   robotSpecs = new RobotSpecs(k.maxVel, k.maxAccel, k.baseWidth);
   params = new TrajectoryParams();
   params.waypoints = new Waypoint[] {
