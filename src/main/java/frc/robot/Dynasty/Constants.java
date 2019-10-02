@@ -28,19 +28,19 @@ public class Constants {
     public Double baseWidth;
 
     public Constants(){
-        dtKp = .00000;
-        dtKd = .0;
-        dtLeftFwdVint = 0;
-        dtLeftRevVint = 0; 
-        dtRightFwdVint = 0;
-        dtRightRevVint = 0;
+        dtKp = 1.35;
+        dtKd = 0.0419;
+        dtLeftFwdVint = 2.39/12;
+        dtLeftRevVint =  2.39/12; 
+        dtRightFwdVint =  2.39/12;
+        dtRightRevVint = 2.39/12;
         maxVel = 12.0;
         maxTurn = 7.0;
         maxAccel = 2.0;
         baseWidth = 2.02;
-        dtGkP = .0000;
-        dtKv = .0483;
-        dtKa = .00;
+        dtGkP = .01;
+        dtKv = .433;
+        dtKa = .068;
     }
 
 }

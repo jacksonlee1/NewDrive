@@ -74,8 +74,8 @@ public class FollowTrajectory extends Command {
 
       SmartDashboard.putNumber("Follower Directional Error", follower.lastDirectionalError());
 
-      SmartDashboard.putNumber("Left Encoder Value", RobotMap.leftEncoder.get());
-      SmartDashboard.putNumber("Right Encoder Value", RobotMap.rightEncoder.get());
+      SmartDashboard.putNumber("Left Encoder distance", RobotMap.leftEncoder.getDistance());
+      SmartDashboard.putNumber("Right Encoder distance", RobotMap.rightEncoder.getDistance());
      
   }
 
