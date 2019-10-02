@@ -13,14 +13,10 @@ package frc.robot.Dynasty;
  * Add your docs here.
  */
 public class Constants {
-    public Double dtLKp;
-    public Double dtRKp;
-    public Double dtLkV;
-    public Double dtRkV;
-    public Double dtLkA;
-    public Double dtRkA;
-    public Double dtLKd;
-    public Double dtRKd;
+    public Double dtKp;
+    public Double dtKv;
+    public Double dtKa;
+    public Double dtKd;
     public double dtGkP;
     public double dtLeftFwdVint;
     public double dtLeftRevVint;
@@ -32,10 +28,8 @@ public class Constants {
     public Double baseWidth;
 
     public Constants(){
-        dtLKp = .00000;
-        dtRKp = .00000;
-        dtLKd = .0;
-        dtRKd = .0;
+        dtKp = .00000;
+        dtKd = .0;
         dtLeftFwdVint = 0;
         dtLeftRevVint = 0; 
         dtRightFwdVint = 0;
@@ -45,8 +39,8 @@ public class Constants {
         maxAccel = 2.0;
         baseWidth = 2.02;
         dtGkP = .0000;
-        dtLkV = .483;
-        dtLkA = .00;
+        dtKv = .0483;
+        dtKa = .00;
     }
 
 }

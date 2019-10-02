@@ -41,7 +41,7 @@ public class FollowTrajectory extends Command {
     
     follower = new TankFollower(trajectory, RobotMap.L_MOTOR, RobotMap.R_MOTOR, 
     RobotMap.L_DISTANCE_SOURCE, RobotMap.R_DISTANCE_SOURCE, RobotMap.TIMESTAMP_SOURCE,
-    RobotMap.GYRO, RobotMap.k.dtLkV, RobotMap.k.dtLkA, RobotMap.k.dtLKp, RobotMap.k.dtLKd, RobotMap.k.dtGkP);
+    RobotMap.GYRO, RobotMap.k.dtKv, RobotMap.k.dtKa, RobotMap.k.dtKp, RobotMap.k.dtKd, RobotMap.k.dtGkP);
     follower.initialize();
   }
 

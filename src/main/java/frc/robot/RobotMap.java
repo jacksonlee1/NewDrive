@@ -59,6 +59,7 @@ public class RobotMap {
 public static final DistanceSource L_DISTANCE_SOURCE = pos::getLeftDistance;
 public static final DistanceSource R_DISTANCE_SOURCE = pos::getRightDistance;
 public static final TimestampSource TIMESTAMP_SOURCE = Timer::getFPGATimestamp;
+public static double distancePerPulse = 0.5 * Math.PI / 120;
   // following variables to use with your drivetrain subsystem.
   // public static int leftMotor = 1;
   // public static int rightMotor = 2;
@@ -79,6 +80,9 @@ public static void init() {
   rightEncoder = new Encoder(0, 1, false, EncodingType.k1X);
   leftEncoder = new Encoder(2, 3, false, EncodingType.k1X);
   rightEncoder.setReverseDirection(true);
+  rightEncoder.setDistancePerPulse(distancePerPulse);
+  leftEncoder.setDistancePerPulse(distancePerPulse);
+  
   robotSpecs = new RobotSpecs(k.maxVel, k.maxAccel, k.baseWidth);
   params = new TrajectoryParams();
   params.waypoints = new Waypoint[] {
