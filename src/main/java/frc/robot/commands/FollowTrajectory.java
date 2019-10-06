@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Logger;
 import frc.robot.RobotMap;
+import frc.robot.dynasty.TankFollower5010;
 import robot.pathfinder.core.trajectory.TankDriveTrajectory;
-import robot.pathfinder.follower.TankFollower;
 
 public class FollowTrajectory extends Command {
   private final TankDriveTrajectory trajectory;
-  private TankFollower follower;
+  private TankFollower5010 follower;
   Logger log;
  
   public FollowTrajectory(TankDriveTrajectory trajectory) {
@@ -37,7 +37,7 @@ public class FollowTrajectory extends Command {
     RobotMap.gyro.reset();
     log.clear();
     
-    follower = new TankFollower(trajectory, RobotMap.L_MOTOR, RobotMap.R_MOTOR, 
+    follower = new TankFollower5010(trajectory, RobotMap.L_MOTOR, RobotMap.R_MOTOR, 
     RobotMap.L_DISTANCE_SOURCE, RobotMap.R_DISTANCE_SOURCE, RobotMap.TIMESTAMP_SOURCE,
     RobotMap.GYRO, RobotMap.k.dtKv / 12, RobotMap.k.dtKa / 12, RobotMap.k.dtKp, RobotMap.k.dtKd, RobotMap.k.dtGkP);
     follower.initialize();

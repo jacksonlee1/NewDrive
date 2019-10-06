@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.Dynasty;
+package frc.robot.dynasty;
 
 
 

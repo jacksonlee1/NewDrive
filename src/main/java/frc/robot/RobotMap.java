@@ -14,7 +14,7 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Dynasty.Constants;
+import frc.robot.dynasty.Constants;
 import frc.robot.subsystems.DtMain;
 import frc.robot.subsystems.FeildPos;
 import robot.pathfinder.core.RobotSpecs;
