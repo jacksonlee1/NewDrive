@@ -12,11 +12,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SerialPort.Port;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.dynasty.Constants;
 import frc.robot.subsystems.DtMain;
 import frc.robot.subsystems.FeildPos;
+import frc.robot.dynasty.Constants;
+import frc.robot.dynasty.Startup;
 import robot.pathfinder.core.RobotSpecs;
 import robot.pathfinder.core.TrajectoryParams;
 import robot.pathfinder.core.Waypoint;
@@ -26,7 +28,6 @@ import robot.pathfinder.follower.Follower.DirectionSource;
 import robot.pathfinder.follower.Follower.DistanceSource;
 import robot.pathfinder.follower.Follower.Motor;
 import robot.pathfinder.follower.Follower.TimestampSource;
-import edu.wpi.first.wpilibj.Encoder;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -92,6 +93,7 @@ public static void init() {
   params.alpha = 10.0;
   params.isTank = true;
   trajectory = new TankDriveTrajectory(new BasicTrajectory(robotSpecs, params));
+  new Startup(500);
 }
   // If you are using multiple modules, make sure to define both the port
   // number and the module. For example you with a rangefinder:
