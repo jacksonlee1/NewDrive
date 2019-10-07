@@ -27,19 +27,11 @@ public class FeildPos extends Subsystem {
     return gyro.getAngle();
   }
   public void setLeftMotor(double output) {
-    if (Math.signum(output) > 0) {
-      output += RobotMap.k.dtLeftFwdVint;
-    } else {
-      output += RobotMap.k.dtLeftRevVint;
-    }
+  
     RobotMap.Ldrive1.set(ControlMode.PercentOutput, output);
   }
   public void setRightMotor(double output) {
-    if (Math.signum(output) > 0) {
-      output += RobotMap.k.dtRightFwdVint;
-    } else {
-      output += RobotMap.k.dtRightRevVint;
-    }
+  
     RobotMap.Rdrive1.set(ControlMode.PercentOutput, output);
   }
   public Double getLeftDistance(){
@@ -47,6 +39,12 @@ public class FeildPos extends Subsystem {
   }
   public Double getRightDistance(){
     return RobotMap.rightEncoder.getDistance();
+  }
+  public Double getRightVelocity(){
+    return RobotMap.rightEncoder.getRate();
+  }
+  public Double getLeftVelocity(){
+    return RobotMap.leftEncoder.getRate();
   }
   @Override
   public void initDefaultCommand() {

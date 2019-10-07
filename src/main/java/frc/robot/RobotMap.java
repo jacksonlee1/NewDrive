@@ -19,6 +19,7 @@ import frc.robot.subsystems.DtMain;
 import frc.robot.subsystems.FeildPos;
 import frc.robot.dynasty.Constants;
 import frc.robot.dynasty.Startup;
+import frc.robot.dynasty.Follower5010.VelocitySource;
 import robot.pathfinder.core.RobotSpecs;
 import robot.pathfinder.core.TrajectoryParams;
 import robot.pathfinder.core.Waypoint;
@@ -60,6 +61,8 @@ public class RobotMap {
 public static final DistanceSource L_DISTANCE_SOURCE = pos::getLeftDistance;
 public static final DistanceSource R_DISTANCE_SOURCE = pos::getRightDistance;
 public static final TimestampSource TIMESTAMP_SOURCE = Timer::getFPGATimestamp;
+public static final VelocitySource L_VELOCITY_SOURCE = pos::getLeftVelocity;
+public static final VelocitySource R_VELOCITY_SOURCE = pos::getRightVelocity;
 public static double distancePerPulse = 0.5 * Math.PI / 120;
   // following variables to use with your drivetrain subsystem.
   // public static int leftMotor = 1;
@@ -88,7 +91,7 @@ public static void init() {
   params = new TrajectoryParams();
   params.waypoints = new Waypoint[] {
     new Waypoint(0.0, 0.0, Math.PI/2),
-    new Waypoint(0, 5, Math.PI/2)
+    new Waypoint(0, 10, Math.PI/2)
   };
   params.alpha = 10.0;
   params.isTank = true;

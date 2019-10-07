@@ -7,7 +7,8 @@
 
 package frc.robot.dynasty;
 
-
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Add your docs here.
@@ -26,6 +27,7 @@ public class Constants {
     public Double maxAccel;
     public Double maxTurn;
     public Double baseWidth;
+    public Map<String,Gains> gains;
 
     public Constants(){
         dtKp = 1.35;
@@ -41,6 +43,18 @@ public class Constants {
         dtGkP = .01;
         dtKv = .433;
         dtKa = .068;
+
+        gains = new HashMap<>();
+        gains.put("LHF",new Gains(.0858,.0386,.457,.0627,2.34));
+        gains.put("RHF",new Gains(.0448,.0177,.43,0.0305,2.44));
+        gains.put("LHR",new Gains(.187,.09,.547,.146,1.89));
+        gains.put("RHR",new Gains(.101,.0456,.541,.0743,1.82));
+        //low gear
+        gains.put("LLF",new Gains(0,0,0,0,0));
+        gains.put("RLF",new Gains(0,0,0,0,0));
+        gains.put("LLR",new Gains(0,0,0,0,0));
+        gains.put("RLR",new Gains(0,0,0,0,0));
+
     }
 
 }
