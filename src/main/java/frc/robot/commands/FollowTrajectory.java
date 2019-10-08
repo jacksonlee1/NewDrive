@@ -11,14 +11,14 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Logger;
 import frc.robot.RobotMap;
-import frc.robot.dynasty.TankFollower5010;
+import frc.robot.dynasty.*;
 import robot.pathfinder.core.trajectory.TankDriveTrajectory;
 
 public class FollowTrajectory extends Command {
   private final TankDriveTrajectory trajectory;
   private TankFollower5010 follower;
   Logger log;
- 
+
   public FollowTrajectory(TankDriveTrajectory trajectory) {
     // Use requires() here to declare subsystem dependencies
     // eg. requires(chassis);
@@ -36,11 +36,12 @@ public class FollowTrajectory extends Command {
     RobotMap.rightEncoder.reset();
     RobotMap.gyro.reset();
     log.clear();
-    
-    follower = new TankFollower5010(trajectory, RobotMap.L_MOTOR, RobotMap.R_MOTOR, 
-    RobotMap.L_DISTANCE_SOURCE, RobotMap.R_DISTANCE_SOURCE, RobotMap.TIMESTAMP_SOURCE,
-    RobotMap.GYRO, RobotMap.k.dtKv / 12, RobotMap.k.dtKa / 12, RobotMap.k.dtKp, RobotMap.k.dtKd, RobotMap.k.dtGkP);
+
+    follower = new TankFollower5010(trajectory, RobotMap.L_MOTOR, RobotMap.R_MOTOR, RobotMap.L_DISTANCE_SOURCE,
+        RobotMap.R_DISTANCE_SOURCE, RobotMap.TIMESTAMP_SOURCE, RobotMap.GYRO, RobotMap.k.dtKv / 12,
+        RobotMap.k.dtKa / 12, RobotMap.k.dtKp, RobotMap.k.dtKd, RobotMap.k.dtGkP);
     follower.setVelSources(RobotMap.R_VELOCITY_SOURCE, RobotMap.L_VELOCITY_SOURCE);
+    follower.setCharacterizedGains(RobotMap.k.gains);
     follower.initialize();
   }
 
@@ -58,34 +59,38 @@ public class FollowTrajectory extends Command {
     log.entry("Err Left", follower.lastLeftError());
     log.entry("Err Right", follower.lastRightError());
     log.writeEntries();
-      SmartDashboard.putNumber("Follower Left Output", follower.lastLeftOutput());
-      SmartDashboard.putNumber("Follower Right Output", follower.lastRightOutput());
+    SmartDashboard.putNumber("Follower Left Output", follower.lastLeftOutput());
+    SmartDashboard.putNumber("Follower Right Output", follower.lastRightOutput());
 
-      SmartDashboard.putNumber("Follower Left Velocity", follower.lastLeftVelocity());
-      SmartDashboard.putNumber("Follower Right Velocity", follower.lastRightVelocity());
+    SmartDashboard.putNumber("Follower Left Velocity", follower.lastLeftVelocity());
+    SmartDashboard.putNumber("Follower Right Velocity", follower.lastRightVelocity());
 
-      // SmartDashboard.putNumber("Follower Left Acceleration", follower.lastLeftAcceleration());
-      // SmartDashboard.putNumber("Follower Right Acceleration", follower.lastRightAcceleration());
+    // SmartDashboard.putNumber("Follower Left Acceleration",
+    // follower.lastLeftAcceleration());
+    // SmartDashboard.putNumber("Follower Right Acceleration",
+    // follower.lastRightAcceleration());
 
-      SmartDashboard.putNumber("Follower Left Error", follower.lastLeftError());
-      SmartDashboard.putNumber("Follower Right Error", follower.lastRightError());
+    SmartDashboard.putNumber("Follower Left Error", follower.lastLeftError());
+    SmartDashboard.putNumber("Follower Right Error", follower.lastRightError());
 
-      // SmartDashboard.putNumber("Follower Left Error Derivative", follower.lastLeftDerivative());
-      // SmartDashboard.putNumber("Follower Right Error Derivative", follower.lastRightDerivative());
+    // SmartDashboard.putNumber("Follower Left Error Derivative",
+    // follower.lastLeftDerivative());
+    // SmartDashboard.putNumber("Follower Right Error Derivative",
+    // follower.lastRightDerivative());
 
-      SmartDashboard.putNumber("Follower Directional Error", follower.lastDirectionalError());
+    SmartDashboard.putNumber("Follower Directional Error", follower.lastDirectionalError());
 
-      SmartDashboard.putNumber("Left Encoder distance", RobotMap.leftEncoder.getDistance());
-      SmartDashboard.putNumber("Right Encoder distance", RobotMap.rightEncoder.getDistance());
-      
-      SmartDashboard.putNumber("rVelErr", follower.rightVelociyError());
-      SmartDashboard.putNumber("rVelAbsErr", follower.rightVelociyAbsError());
-      SmartDashboard.putNumber("rVelRelErr", follower.rightVelociyRelError());
+    SmartDashboard.putNumber("Left Encoder distance", RobotMap.leftEncoder.getDistance());
+    SmartDashboard.putNumber("Right Encoder distance", RobotMap.rightEncoder.getDistance());
 
-      SmartDashboard.putNumber("lVelErr", follower.leftVelociyError());
-      SmartDashboard.putNumber("lVelAbsErr", follower.leftVelocityAbsError());
-      SmartDashboard.putNumber("lVelRelErr", follower.leftVelociyRelError());
-     
+    SmartDashboard.putNumber("rVelErr", follower.rightVelocityError());
+    SmartDashboard.putNumber("rVelAbsErr", follower.rightVelocityAbsError());
+    SmartDashboard.putNumber("rVelRelErr", follower.rightVelocityRelError());
+
+    SmartDashboard.putNumber("lVelErr", follower.leftVelocityError());
+    SmartDashboard.putNumber("lVelAbsErr", follower.leftVelocityAbsError());
+    SmartDashboard.putNumber("lVelRelErr", follower.leftVelocityRelError());
+
   }
 
   // Make this return true when this Command no longer needs to run execute()

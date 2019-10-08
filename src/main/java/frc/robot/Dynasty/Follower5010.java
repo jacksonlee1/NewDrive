@@ -11,13 +11,13 @@ package frc.robot.dynasty;
  * Add your docs here.
  */
 public abstract class Follower5010 {
-    @FunctionalInterface
-    public interface VelocitySource {
+	@FunctionalInterface
+	public interface VelocitySource {
 		/**
-		 * Gets orientation/directional data from the source.<br>
+		 * Gets velocity data from the source.<br>
 		 * <br>
-		 * Please note that the result should be in radians, with 0 representing right. The representation
-		 * should be the same as the angles used to generate the trajectory.
+		 * The units of the value returned depend on the distance per pulse set on the source.
+		 * 
 		 * @return The angle the robot is facing
 		 */
 		public double getVelocity();

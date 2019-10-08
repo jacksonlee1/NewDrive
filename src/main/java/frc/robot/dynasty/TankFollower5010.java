@@ -30,7 +30,7 @@ public class TankFollower5010 extends Follower {
 	DirectionSource directionSrc;
 	Motor lMotor, rMotor;
 	VelocitySource lVelSource, rVelSource;
-	Map<String,Gains> gains;
+	Map<String, Gains> gains;
 	Gains defaultGains;
 	// Directional proportional gain
 	double kDP = 0;
@@ -48,6 +48,7 @@ public class TankFollower5010 extends Follower {
 	double leftErr, rightErr, dirErr, leftOutput, rightOutput, leftDeriv, rightDeriv, leftVelo, rightVelo, leftAccel,
 			rightAccel, rightVeloErr, leftVeloErr;
 	double lAbsErr, lRelErr, rAbsErr, rRelErr;
+	double lDistance, rDistance;
 
 	/**
 	 * Constructs a new tank drive follower. Note that since this constructor does
@@ -187,7 +188,8 @@ public class TankFollower5010 extends Follower {
 		this.lVelSource = lVelSource;
 		this.rVelSource = rVelSource;
 	}
-	public void setCharGains(Map<String,Gains> gains){
+
+	public void setCharacterizedGains(Map<String, Gains> gains) {
 		this.gains = gains;
 	}
 
@@ -217,9 +219,7 @@ public class TankFollower5010 extends Follower {
 	 * @param kDP The directional-proportional gain
 	 */
 	public void setGains(double kV, double kA, double kP, double kD, double kDP) {
-		
 		setGains(kV, kA, kP, kD);
-		
 		setDP(kDP);
 	}
 
@@ -306,7 +306,7 @@ public class TankFollower5010 extends Follower {
 			initDirection = directionSrc.getDirection();
 		}
 		initTime = lastTime = timer.getTimestamp();
-		defaultGains = new Gains(kP,kD,kV,kV,0.0);
+		defaultGains = new Gains(kP, kD, kV, kV, 0.0);
 		running = true;
 	}
 
@@ -335,9 +335,11 @@ public class TankFollower5010 extends Follower {
 		leftErr = rightErr = leftDeriv = rightDeriv = dirErr = 0;
 		// Calculate errors and derivatives only if the distance sources are not null
 		if (lDistSrc != null && rDistSrc != null) {
+			lDistance = m.getLeftPosition();
+			rDistance = m.getRightPosition();
 			// Calculate left and right errors
-			leftErr = m.getLeftPosition() - (lDistSrc.getDistance() - lInitDist);
-			rightErr = m.getRightPosition() - (rDistSrc.getDistance() - rInitDist);
+			leftErr = lDistance - (lDistSrc.getDistance() - lInitDist);
+			rightErr = rDistance - (rDistSrc.getDistance() - rInitDist);
 			// Get the derivative of the errors
 			// Subtract away the desired velocity to get the true error
 			leftDeriv = (leftErr - lLastErr) / dt - m.getLeftVelocity();
@@ -352,22 +354,21 @@ public class TankFollower5010 extends Follower {
 		rightVelo = m.getRightVelocity();
 		leftAccel = m.getLeftAcceleration();
 		rightAccel = m.getRightAcceleration();
-			Gains lGains = gains.get("LH"+(Math.signum(leftVelo)>0 ? "F":"R"));
-			Gains rGains = gains.get("RH"+(Math.signum(leftVelo)>0 ? "F":"R"));
-		if (null == lGains){
+		
+		Gains lGains = gains.get("LH" + (Math.signum(leftVelo) > 0 ? "F" : "R"));
+		Gains rGains = gains.get("RH" + (Math.signum(leftVelo) > 0 ? "F" : "R"));
+		if (null == lGains) {
 			lGains = defaultGains;
 		}
-		if (null == rGains){
+		if (null == rGains) {
 			rGains = defaultGains;
 		}
 
-
-
 		// Calculate outputs
-		leftOutput = lGains.kA * m.getLeftAcceleration() + lGains.kV * m.getLeftVelocity() + lGains.kP * leftErr +lGains.kD * leftDeriv
-				- dirErr * kDP + lGains.kS;
-		rightOutput = rGains.kA * m.getRightAcceleration() + rGains.kV * m.getRightVelocity() + rGains.kP * rightErr + rGains.kD * rightDeriv
-				+ dirErr * kDP + rGains.kS;
+		leftOutput = lGains.kA * m.getLeftAcceleration() + lGains.kV * m.getLeftVelocity() + lGains.kP * leftErr
+				+ lGains.kD * leftDeriv - dirErr * kDP + lGains.kS;
+		rightOutput = rGains.kA * m.getRightAcceleration() + rGains.kV * m.getRightVelocity() + rGains.kP * rightErr
+				+ rGains.kD * rightDeriv + dirErr * kDP + rGains.kS;
 		// Constrain
 		leftOutput = Math.max(-1, Math.min(1, leftOutput));
 		rightOutput = Math.max(-1, Math.min(1, rightOutput));
@@ -505,24 +506,28 @@ public class TankFollower5010 extends Follower {
 		return rightAccel;
 	}
 
-	public double rightVelociyError(){
+	public double rightVelocityError() {
 		return rightVeloErr;
 	}
-	public double rightVelociyAbsError(){
-		return rAbsErr;
-	}
-	public double rightVelociyRelError(){
-		return rRelErr;
+
+	public double rightVelocityAbsError() {
+		return rAbsErr / rDistance;
 	}
 
-	public double leftVelociyError(){
+	public double rightVelocityRelError() {
+		return rRelErr / rDistance;
+	}
+
+	public double leftVelocityError() {
 		return leftVeloErr;
 	}
-	public double leftVelocityAbsError(){
-		return lAbsErr;
+
+	public double leftVelocityAbsError() {
+		return lAbsErr / lDistance;
 	}
-	public double leftVelociyRelError(){
-		return lRelErr;
+
+	public double leftVelocityRelError() {
+		return lRelErr / lDistance;
 	}
 
 }
