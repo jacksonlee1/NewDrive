@@ -38,8 +38,8 @@ public class FollowTrajectory extends Command {
     log.clear();
 
     follower = new TankFollower5010(trajectory, RobotMap.L_MOTOR, RobotMap.R_MOTOR, RobotMap.L_DISTANCE_SOURCE,
-        RobotMap.R_DISTANCE_SOURCE, RobotMap.TIMESTAMP_SOURCE, RobotMap.GYRO, RobotMap.k.dtKv / 12,
-        RobotMap.k.dtKa / 12, RobotMap.k.dtKp, RobotMap.k.dtKd, RobotMap.k.dtGkP);
+        RobotMap.R_DISTANCE_SOURCE, RobotMap.TIMESTAMP_SOURCE, RobotMap.GYRO, RobotMap.k.dtKv,
+        RobotMap.k.dtKa, RobotMap.k.dtKp, RobotMap.k.dtKd, RobotMap.k.dtGkP);
     follower.setVelSources(RobotMap.R_VELOCITY_SOURCE, RobotMap.L_VELOCITY_SOURCE);
     follower.setCharacterizedGains(RobotMap.k.gains);
     follower.initialize();
@@ -91,6 +91,8 @@ public class FollowTrajectory extends Command {
     SmartDashboard.putNumber("lVelAbsErr", follower.leftVelocityAbsError());
     SmartDashboard.putNumber("lVelRelErr", follower.leftVelocityRelError());
 
+    SmartDashboard.putNumber("X Loc", follower.xLoc());
+    SmartDashboard.putNumber("Y Loc", follower.yLoc());
   }
 
   // Make this return true when this Command no longer needs to run execute()

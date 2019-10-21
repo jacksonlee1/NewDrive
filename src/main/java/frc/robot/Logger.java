@@ -43,7 +43,7 @@ public class Logger {
             String titles = entries.keySet().stream()
                 .sorted().collect(Collectors.joining(", "));
             try {
-                System.out.println(titles);
+               // System.out.println(titles);
                 fw.write(titles);
                 fw.write("\r\n");
             } catch (IOException e) {
@@ -57,7 +57,7 @@ public class Logger {
             .map(Object::toString)
             .collect(Collectors.joining(", "));
         try {
-            System.out.println(values);
+           // System.out.println(values);
             fw.write(values);
             fw.write("\r\n");
         } catch (IOException e) {

@@ -15,8 +15,8 @@ public class Gains {
     public Gains(double kP,double kD,double kV,double kA,double kS){
         this.kP = kP;
         this.kD = kD;
-        this.kV = kV/12;
-        this.kA = kA/12;
+        this.kV = kV;
+        this.kA = kA;
         this.kS = kS;
     }
 }

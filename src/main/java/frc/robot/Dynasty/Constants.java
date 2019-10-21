@@ -40,7 +40,7 @@ public class Constants {
         maxTurn = 7.0;
         maxAccel = 2.0;
         baseWidth = 2.02;
-        dtGkP = .01;
+        dtGkP = .05;
         dtKv = .433;
         dtKa = .068;
 

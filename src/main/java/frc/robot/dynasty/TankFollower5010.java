@@ -2,6 +2,7 @@ package frc.robot.dynasty;
 
 import java.util.Map;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.dynasty.Follower5010.VelocitySource;
 import robot.pathfinder.core.trajectory.TankDriveMoment;
 import robot.pathfinder.core.trajectory.TankDriveTrajectory;
@@ -34,6 +35,7 @@ public class TankFollower5010 extends Follower {
 	Gains defaultGains;
 	// Directional proportional gain
 	double kDP = 0;
+	double xLoc, yLoc, lastLDistance, lastRDistance;
 
 	// Keep track of the initial timestamp and distance measurements so we don't
 	// have to reset
@@ -308,6 +310,7 @@ public class TankFollower5010 extends Follower {
 		initTime = lastTime = timer.getTimestamp();
 		defaultGains = new Gains(kP, kD, kV, kV, 0.0);
 		running = true;
+		lastLDistance = lastRDistance = xLoc = yLoc = 0;
 	}
 
 	/**
@@ -359,19 +362,27 @@ public class TankFollower5010 extends Follower {
 		Gains rGains = gains.get("RH" + (Math.signum(leftVelo) > 0 ? "F" : "R"));
 		if (null == lGains) {
 			lGains = defaultGains;
+			System.out.println("Using Default Left Gains");
 		}
 		if (null == rGains) {
 			rGains = defaultGains;
+			System.out.println("Using Default Right Gains");
 		}
 
+		SmartDashboard.putNumber("Left kV", lGains.kV);
+		SmartDashboard.putNumber("Left kA", lGains.kA);
+		SmartDashboard.putNumber("Left kS", lGains.kS / 12);
+		SmartDashboard.putNumber("Right kV", rGains.kV);
+		SmartDashboard.putNumber("Right kA", rGains.kA);
+		SmartDashboard.putNumber("Right kS", rGains.kS / 12);
 		// Calculate outputs
 		leftOutput = lGains.kA * m.getLeftAcceleration() + lGains.kV * m.getLeftVelocity() + lGains.kP * leftErr
-				+ lGains.kD * leftDeriv - dirErr * kDP + lGains.kS;
+				+ lGains.kD * leftDeriv - dirErr * kDP + (lGains.kS);
 		rightOutput = rGains.kA * m.getRightAcceleration() + rGains.kV * m.getRightVelocity() + rGains.kP * rightErr
-				+ rGains.kD * rightDeriv + dirErr * kDP + rGains.kS;
+				+ rGains.kD * rightDeriv + dirErr * kDP + (rGains.kS);
 		// Constrain
-		leftOutput = Math.max(-1, Math.min(1, leftOutput));
-		rightOutput = Math.max(-1, Math.min(1, rightOutput));
+		leftOutput = Math.max(-1, Math.min(1, leftOutput/12));
+		rightOutput = Math.max(-1, Math.min(1, rightOutput/12));
 
 		lMotor.set(leftOutput);
 		rMotor.set(rightOutput);
@@ -385,6 +396,13 @@ public class TankFollower5010 extends Follower {
 		lRelErr += leftVeloErr;
 		rAbsErr += Math.abs(rightVeloErr);
 		rRelErr += rightVeloErr;
+
+		double deltaDist = ((lDistSrc.getDistance() - lastLDistance) + (rDistSrc.getDistance() - lastRDistance)) / 2;
+		xLoc += deltaDist * Math.sin(directionSrc.getDirection());
+		yLoc += deltaDist * Math.cos(directionSrc.getDirection()); 
+
+		lastLDistance = lDistSrc.getDistance();
+		lastRDistance = rDistSrc.getDistance();
 	}
 
 	/**
@@ -530,4 +548,6 @@ public class TankFollower5010 extends Follower {
 		return lRelErr / lDistance;
 	}
 
+	public double xLoc() { return xLoc; }
+	public double yLoc() { return yLoc; }
 }
